@@ -36,11 +36,11 @@ $countryinfo->{'6255152'}->{'name'} = 'Antarctica';
 open my $fh_in, "<", "$ARGV[0]" or die "Can't open $ARGV[0]: $!\n";
 foreach my $line (<$fh_in>){
 	chomp $line;
-	next if ($line =~ /^#/);
-	my @fields = (split "\t", $line);
-	my $code = $fields[0];
-	my $name = $fields[4];
-	my $id   = $fields[16];
+#	next if ($line =~ /"geoname_id"/);
+	my @fields = (split ",", $line);
+	my $code = $fields[4];
+	my $name = $fields[5];
+	my $id   = $fields[0];
 	$countryinfo->{$id}->{'code'} = $code;
 	$countryinfo->{$id}->{'name'} = $name;
 }
@@ -72,15 +72,15 @@ foreach my $line (<STDIN>){
 	}elsif ($is_satellite_provider){
 		$code = "A2";
 		$name = "Satellite Provider";
-	}elsif($countryinfo->{$represented_country_geoname_id}){
-		$code = $countryinfo->{$represented_country_geoname_id}->{'code'};
-		$name = $countryinfo->{$represented_country_geoname_id}->{'name'};
-	}elsif($countryinfo->{$registered_country_geoname_id}){
-		$code = $countryinfo->{$registered_country_geoname_id}->{'code'};
-		$name = $countryinfo->{$registered_country_geoname_id}->{'name'};
 	}elsif($countryinfo->{$geoname_id}){
 		$code = $countryinfo->{$geoname_id}->{'code'};
 		$name = $countryinfo->{$geoname_id}->{'name'};
+	}elsif($countryinfo->{$registered_country_geoname_id}){
+                $code = $countryinfo->{$registered_country_geoname_id}->{'code'};
+                $name = $countryinfo->{$registered_country_geoname_id}->{'name'};
+        }elsif($countryinfo->{$represented_country_geoname_id}){
+                $code = $countryinfo->{$represented_country_geoname_id}->{'code'};
+                $name = $countryinfo->{$represented_country_geoname_id}->{'name'};
 	}else{
 		print STDERR "Unknown Geoname ID, panicking. This is a bug.\n";
 		print STDERR "ID: $geoname_id\n";
