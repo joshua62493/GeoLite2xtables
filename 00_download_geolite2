@@ -4,5 +4,5 @@ source "$(dirname "$(readlink -f "$0")")/geolite2.license"
 TEMPZIP=$(mktemp)
 GEOLITEURL="https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-Country-CSV&license_key=${YOUR_LICENSE_KEY}&suffix=zip"
 curl $GEOLITEURL > $TEMPZIP
-unzip -d /tmp -o -j $TEMPZIP '*/GeoLite2-Country-Blocks*'
+unzip -d /tmp -o -j $TEMPZIP '*/GeoLite2-Country*'
 rm $TEMPZIP
